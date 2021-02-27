@@ -1,23 +1,40 @@
-import React, { ReactElement } from 'react';
-import { Grommet, Heading, Main, Paragraph } from 'grommet';
+import React, { ReactElement, useState } from 'react';
+import { grommet, Grommet, ThemeType } from 'grommet';
+import { deepMerge } from 'grommet/utils';
+import LandingPage from './intro/pages/landingPage/LandingPage';
+import { ThemeModeContext } from './common/context/CommonContexts';
 
-const theme = {
+const theme: ThemeType = {
   global: {
-    font: {
-      family: 'Roboto',
-      size: '14px',
-      height: '20px',
+    colors: {
+      brand: '#6C63FF',
+      'accent-1': '#6C63FF',
+      'bg-light': 'white',
+      'bg-dark': '#424058',
+      background: {
+        light: 'bg-light',
+        dark: 'bg-dark',
+      },
+    },
+    focus: {
+      shadow: {
+        size: '0px',
+      },
     },
   },
 };
 
 export const App = (): ReactElement => {
+  const [darkMode, setDarkMode] = useState(false);
   return (
-    <Grommet theme={theme}>
-      <Main pad='large'>
-        <Heading>Hello React</Heading>
-        <Paragraph>We made something</Paragraph>
-      </Main>
+    <Grommet
+      themeMode={darkMode ? 'dark' : 'light'}
+      theme={deepMerge(grommet, theme)}
+      full
+    >
+      <ThemeModeContext.Provider value={{ darkMode, setDarkMode }}>
+        <LandingPage />
+      </ThemeModeContext.Provider>
     </Grommet>
   );
 };
