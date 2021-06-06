@@ -1,8 +1,15 @@
 import React, { ReactElement, useState } from 'react';
 import { grommet, Grommet, ThemeType } from 'grommet';
 import { deepMerge } from 'grommet/utils';
+import { Route, Switch, useHistory } from 'react-router-dom';
+import { LoginCallback, SecureRoute, Security } from '@okta/okta-react';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { OktaAuth, toRelativeUrl } from '@okta/okta-auth-js';
+
 import LandingPage from './intro/pages/landingPage/LandingPage';
 import { ThemeModeContext } from './common/context/CommonContexts';
+import LoginPage from './login/pages/loginPage/LoginPage';
+import Explanation from './explanation/pages/explanation/Explanation';
 
 const theme: ThemeType = {
   global: {
@@ -24,8 +31,25 @@ const theme: ThemeType = {
   },
 };
 
+const config = {
+  issuer: process.env.REACT_APP_ISSUER,
+  clientId: process.env.REACT_APP_CLIENT_ID,
+  redirectUri: `http://${window.location.host}${process.env.REACT_APP_CALLBACK_PATH}`,
+  scopes: process.env.REACT_APP_SCOPES?.split(','),
+};
+
+const oktaAuth = new OktaAuth(config);
+
+const useRestoreOriginalUri = () => {
+  const history = useHistory();
+  return async (_oktaAuth: OktaAuth, originalUri: string) => {
+    history.replace(toRelativeUrl(originalUri, window.location.origin));
+  };
+};
+
 export const App = (): ReactElement => {
   const [darkMode, setDarkMode] = useState(false);
+  const restoreOriginalUri = useRestoreOriginalUri();
   return (
     <Grommet
       themeMode={darkMode ? 'dark' : 'light'}
@@ -33,7 +57,14 @@ export const App = (): ReactElement => {
       full
     >
       <ThemeModeContext.Provider value={{ darkMode, setDarkMode }}>
-        <LandingPage />
+        <Security oktaAuth={oktaAuth} restoreOriginalUri={restoreOriginalUri}>
+          <Switch>
+            <Route path='/' exact component={LandingPage} />
+            <Route path='/begin' component={LoginPage} />
+            <Route path='/login/callback' component={LoginCallback} />
+            <SecureRoute path='/explanation' exact component={Explanation} />
+          </Switch>
+        </Security>
       </ThemeModeContext.Provider>
     </Grommet>
   );

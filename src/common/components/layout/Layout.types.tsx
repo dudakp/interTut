@@ -4,4 +4,5 @@ import { FooterProps } from '../footer/Footer.types';
 export interface LayoutProps {
   headerProps?: HeaderProps;
   footerProps?: FooterProps;
+  mainMarginLeft?: string;
 }

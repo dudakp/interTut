@@ -4,11 +4,12 @@ import { Box, ResponsiveContext } from 'grommet';
 import { LayoutProps } from './Layout.types';
 import Header from '../header/Header';
 import Footer from '../footer/Footer';
-import { StyledGrid } from './LayoutStyles';
+import { StyledGrid, StyledMainBox } from './LayoutStyles';
 
 const Layout: React.FC<LayoutProps> = ({
   headerProps,
   footerProps,
+  mainMarginLeft,
   children,
 }) => {
   const size = React.useContext(ResponsiveContext);
@@ -29,10 +30,10 @@ const Layout: React.FC<LayoutProps> = ({
         <Header {...headerProps} />
       </Box>
 
-      <Box pad='large' gridArea='main'>
+      <StyledMainBox pad='large' gridArea='main' marginLeft={mainMarginLeft}>
         {/* eslint-disable-next-line react/prop-types,react/destructuring-assignment */}
         {children}
-      </Box>
+      </StyledMainBox>
       <GrommetFooter gridArea='footer'>
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
         <Footer {...footerProps} />

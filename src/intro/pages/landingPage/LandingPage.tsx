@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, Grid, ResponsiveContext } from 'grommet';
+import { useHistory } from 'react-router-dom';
 import { LandingPageProps } from './LandingPage.types';
 import { StyledButton, StyledHeading, StyledList } from './LandingPage.styles';
 import Layout from '../../../common/components/layout/Layout';
@@ -17,6 +18,8 @@ const technologies: string[] = [
 
 const LandingPage: React.FC<LandingPageProps> = () => {
   const size = React.useContext(ResponsiveContext);
+
+  const history = useHistory();
 
   return (
     <Layout>
@@ -37,7 +40,11 @@ const LandingPage: React.FC<LandingPageProps> = () => {
             are you interested how to build me?
           </StyledHeading>
           <Box height='100px' width='300px' fill={size === 'small'}>
-            <StyledButton primary onClick={() => {}} label='learn now' />
+            <StyledButton
+              primary
+              label='learn now'
+              onClick={(e) => history.push('/begin')}
+            />
           </Box>
         </Box>
         {size !== 'small' ? (
