@@ -1,5 +1,6 @@
 import { BoxProps } from 'grommet';
 
-export interface HeaderProps {
+export interface NavBarProps {
   boxProps?: BoxProps;
+  learning?: boolean;
 }

@@ -10,21 +10,26 @@ import {
 import { useHistory } from 'react-router-dom';
 import { useOktaAuth } from '@okta/okta-react';
 import DarkModeSwitch from '../darkModeSwitch/DarkModeSwitch';
-import { HeaderProps } from './Header.types';
+import { NavBarProps } from './NavBar.types';
+import useOnPath from '../../hooks/useOnPath';
+import If from '../if/If';
 
 const useLogout = () => {
   const { oktaAuth } = useOktaAuth();
 
   return async () => {
     await oktaAuth.signOut({
-      postLogoutRedirectUri: 'http://localhost:3001/',
+      postLogoutRedirectUri: 'http://localhost:3000/',
     });
   };
 };
 
 // eslint-disable-next-line react/prop-types
-const Header: React.FC<HeaderProps> = ({ boxProps }) => {
+const NavBar: React.FC<NavBarProps> = ({ boxProps }) => {
   const history = useHistory();
+
+  const learning = useOnPath();
+
   const { authState } = useOktaAuth();
   const logout = useLogout();
 
@@ -32,20 +37,20 @@ const Header: React.FC<HeaderProps> = ({ boxProps }) => {
     <ThemeContext.Extend value={{}}>
       <GHeader>
         <Box direction='row' align='center'>
-          {history.location.pathname !== '/explanation' ? (
+          <If
+            ifTrue={
+              !history.location.pathname.includes('/explanation') && learning
+            }
+          >
             <Button onClick={(e) => history.push('/explanation?id=react')}>
               <Box pad='small' direction='row' align='center' gap='small'>
                 <Text>peek under the hood</Text>
               </Box>
             </Button>
-          ) : (
-            ''
-          )}
-          {authState.isAuthenticated ? (
-            <Button onClick={logout}>logout</Button>
-          ) : (
-            ''
-          )}
+          </If>
+          <If ifTrue={authState.isAuthenticated}>
+            <Button primary onClick={logout} label='logout' />
+          </If>
         </Box>
         {/* eslint-disable-next-line react/prop-types,react/jsx-props-no-spreading */}
         <Nav {...boxProps} direction='row-reverse'>
@@ -55,4 +60,4 @@ const Header: React.FC<HeaderProps> = ({ boxProps }) => {
     </ThemeContext.Extend>
   );
 };
-export default Header;
+export default NavBar;

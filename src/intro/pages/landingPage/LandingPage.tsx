@@ -43,7 +43,9 @@ const LandingPage: React.FC<LandingPageProps> = () => {
             <StyledButton
               primary
               label='learn now'
-              onClick={(e) => history.push('/begin')}
+              onClick={(e) =>
+                history.push('/explanationFirst?id=intro_0_hello')
+              }
             />
           </Box>
         </Box>

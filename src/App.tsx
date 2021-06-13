@@ -50,6 +50,7 @@ const useRestoreOriginalUri = () => {
 export const App = (): ReactElement => {
   const [darkMode, setDarkMode] = useState(false);
   const restoreOriginalUri = useRestoreOriginalUri();
+
   return (
     <Grommet
       themeMode={darkMode ? 'dark' : 'light'}
@@ -60,8 +61,12 @@ export const App = (): ReactElement => {
         <Security oktaAuth={oktaAuth} restoreOriginalUri={restoreOriginalUri}>
           <Switch>
             <Route path='/' exact component={LandingPage} />
+            <Route path='/start'>
+              <LandingPage />
+            </Route>
             <Route path='/begin' component={LoginPage} />
             <Route path='/login/callback' component={LoginCallback} />
+            <Route path='/explanationFirst' component={Explanation} />
             <SecureRoute path='/explanation' exact component={Explanation} />
           </Switch>
         </Security>

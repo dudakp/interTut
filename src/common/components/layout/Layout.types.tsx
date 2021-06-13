@@ -1,8 +1,8 @@
-import { HeaderProps } from '../header/Header.types';
+import { NavBarProps } from '../navbar/NavBar.types';
 import { FooterProps } from '../footer/Footer.types';
 
 export interface LayoutProps {
-  headerProps?: HeaderProps;
+  navbarProps?: NavBarProps;
   footerProps?: FooterProps;
   mainMarginLeft?: string;
 }

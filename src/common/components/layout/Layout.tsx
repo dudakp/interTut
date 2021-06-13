@@ -2,20 +2,25 @@ import React from 'react';
 import { Footer as GrommetFooter } from 'grommet/components/Footer';
 import { Box, ResponsiveContext } from 'grommet';
 import { LayoutProps } from './Layout.types';
-import Header from '../header/Header';
+import NavBar from '../navbar/NavBar';
 import Footer from '../footer/Footer';
 import { StyledGrid, StyledMainBox } from './LayoutStyles';
+import useOnPath from '../../hooks/useOnPath';
 
 const Layout: React.FC<LayoutProps> = ({
-  headerProps,
+  navbarProps,
   footerProps,
   mainMarginLeft,
   children,
 }) => {
   const size = React.useContext(ResponsiveContext);
+
+  const learning = useOnPath('explanation');
+
   return (
     <StyledGrid
       size={size}
+      explanationPage={learning}
       fill
       rows={['auto', 'flex', 'auto']}
       columns={['auto', 'flex']}
@@ -27,7 +32,7 @@ const Layout: React.FC<LayoutProps> = ({
     >
       <Box gridArea='header'>
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        <Header {...headerProps} />
+        <NavBar {...navbarProps} />
       </Box>
 
       <StyledMainBox pad='large' gridArea='main' marginLeft={mainMarginLeft}>

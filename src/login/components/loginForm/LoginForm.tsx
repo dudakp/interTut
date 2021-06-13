@@ -10,6 +10,7 @@ import {
 } from 'grommet';
 import { Github, Google } from 'grommet-icons';
 import { useOktaAuth } from '@okta/okta-react';
+import If from '../../../common/components/if/If';
 
 const LoginForm: React.FC<any> = () => {
   const { authState, oktaAuth } = useOktaAuth();
@@ -30,9 +31,7 @@ const LoginForm: React.FC<any> = () => {
           with GitHub or Google account
         </Text>
       </CardBody>
-      {authState.isAuthenticated ? (
-        'userInfo'
-      ) : (
+      <If ifTrue={!authState.isAuthenticated}>
         <CardFooter pad='small' justify='center'>
           <Button
             onClick={login}
@@ -45,7 +44,7 @@ const LoginForm: React.FC<any> = () => {
             hoverIndicator
           />
         </CardFooter>
-      )}
+      </If>
     </Card>
   );
 };
