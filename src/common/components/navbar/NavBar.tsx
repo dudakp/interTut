@@ -1,28 +1,17 @@
 import React from 'react';
-import {
-  Box,
-  Button,
-  Header as GHeader,
-  Nav,
-  Text,
-  ThemeContext,
-} from 'grommet';
+import { Box, Button, Header, Nav, Text, ThemeContext } from 'grommet';
 import { useHistory } from 'react-router-dom';
 import { useOktaAuth } from '@okta/okta-react';
+import styled from 'styled-components';
 import DarkModeSwitch from '../darkModeSwitch/DarkModeSwitch';
 import { NavBarProps } from './NavBar.types';
 import useOnPath from '../../hooks/useOnPath';
 import If from '../if/If';
+import Avatar from '../avatar/Avatar';
 
-const useLogout = () => {
-  const { oktaAuth } = useOktaAuth();
-
-  return async () => {
-    await oktaAuth.signOut({
-      postLogoutRedirectUri: 'http://localhost:3000/',
-    });
-  };
-};
+const AvatarContainer = styled(Box)`
+  margin-right: 2rem;
+`;
 
 // eslint-disable-next-line react/prop-types
 const NavBar: React.FC<NavBarProps> = ({ boxProps }) => {
@@ -31,11 +20,10 @@ const NavBar: React.FC<NavBarProps> = ({ boxProps }) => {
   const learning = useOnPath();
 
   const { authState } = useOktaAuth();
-  const logout = useLogout();
 
   return (
     <ThemeContext.Extend value={{}}>
-      <GHeader>
+      <Header>
         <Box direction='row' align='center'>
           <If
             ifTrue={
@@ -48,15 +36,19 @@ const NavBar: React.FC<NavBarProps> = ({ boxProps }) => {
               </Box>
             </Button>
           </If>
-          <If ifTrue={authState.isAuthenticated}>
-            <Button primary onClick={logout} label='logout' />
-          </If>
         </Box>
         {/* eslint-disable-next-line react/prop-types,react/jsx-props-no-spreading */}
         <Nav {...boxProps} direction='row-reverse'>
-          <DarkModeSwitch />
+          <If ifTrue={authState.isAuthenticated}>
+            <AvatarContainer pad='small' direction='row'>
+              <Avatar />
+            </AvatarContainer>
+          </If>
+          <If ifTrue={!authState.isAuthenticated}>
+            <DarkModeSwitch />
+          </If>
         </Nav>
-      </GHeader>
+      </Header>
     </ThemeContext.Extend>
   );
 };

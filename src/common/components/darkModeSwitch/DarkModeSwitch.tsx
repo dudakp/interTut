@@ -10,7 +10,7 @@ const DarkModeSwitch: React.FC<DarkModeSwitchProps> = () => {
   const { darkMode, setDarkMode } = useContext(ThemeModeContext);
 
   return (
-    <Box align='center' pad='large'>
+    <Box align='center' pad='small'>
       <ThemeContext.Extend value={checkBoxTheme}>
         <CheckBox
           checked={checked}

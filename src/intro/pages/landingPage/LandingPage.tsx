@@ -44,7 +44,7 @@ const LandingPage: React.FC<LandingPageProps> = () => {
               primary
               label='learn now'
               onClick={(e) =>
-                history.push('/explanationFirst?id=intro_0_hello')
+                history.push('/explanationFirst?id=intro/0_hello')
               }
             />
           </Box>

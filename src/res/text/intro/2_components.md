@@ -1,3 +1,8 @@
+---
+module: intro
+isLastInModule: true
+---
+
 ## components
 
 A building block of react apps. Our whole app is just composition of react components. Simply said component is

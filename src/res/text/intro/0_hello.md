@@ -1,3 +1,9 @@
+---
+module: intro
+nextId: intro/1_react
+buttonLabel: react
+---
+
 # Hello developer,
 
 I’m glad that you want to learn something new and decided to click the button. So to the point, how to build this thing

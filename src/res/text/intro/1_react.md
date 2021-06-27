@@ -1,3 +1,9 @@
+---
+module: intro
+nextId: intro/2_components
+buttonLabel: components
+---
+
 # Sooo, what is react?
 
 Well, it's that thing we are going to use to build what you see, but lets define and describe the "thing".

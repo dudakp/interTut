@@ -3,16 +3,22 @@ import { useEffect, useState } from 'react';
 
 const useUserInfo = () => {
   const { authState, oktaAuth } = useOktaAuth();
-  const [userInfo, setUserInfo] = useState<any>(null);
+  const [userInfo, setUserInfo] = useState<{
+    email?: string;
+    given_name?: string;
+    family_name?: string;
+  }>({});
 
   useEffect(() => {
+    const getUserInfo = async () => {
+      const userClaims = await oktaAuth.getUser().then((info) => info);
+      setUserInfo(userClaims);
+    };
+
     if (!authState.isAuthenticated) {
-      // When user isn't authenticated, forget any user info
-      setUserInfo(null);
+      setUserInfo({});
     } else {
-      oktaAuth.getUser().then((info) => {
-        setUserInfo(info);
-      });
+      getUserInfo();
     }
   }, [authState, oktaAuth]);
 

@@ -10,6 +10,7 @@ import LandingPage from './intro/pages/landingPage/LandingPage';
 import { ThemeModeContext } from './common/context/CommonContexts';
 import LoginPage from './login/pages/loginPage/LoginPage';
 import Explanation from './explanation/pages/explanation/Explanation';
+import Congratulations from './common/pages/congratulations/Congratulations';
 
 const theme: ThemeType = {
   global: {
@@ -61,12 +62,11 @@ export const App = (): ReactElement => {
         <Security oktaAuth={oktaAuth} restoreOriginalUri={restoreOriginalUri}>
           <Switch>
             <Route path='/' exact component={LandingPage} />
-            <Route path='/start'>
-              <LandingPage />
-            </Route>
+            <Route path='/start' component={LandingPage} />
             <Route path='/begin' component={LoginPage} />
-            <Route path='/login/callback' component={LoginCallback} />
             <Route path='/explanationFirst' component={Explanation} />
+            <Route path='/login/callback' component={LoginCallback} />
+            <Route path='/congratulations' component={Congratulations} />
             <SecureRoute path='/explanation' exact component={Explanation} />
           </Switch>
         </Security>
