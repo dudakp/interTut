@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import fm from 'front-matter';
-import { Button } from 'grommet';
+import { Box, Button } from 'grommet';
 import { useHistory } from 'react-router-dom';
 import Layout from '../../../common/components/layout/Layout';
 import useQuery from '../../../common/hooks/useQuery';
@@ -40,25 +40,29 @@ const Explanation: React.FC<ExplanationProps> = (props) => {
 
   return (
     <Layout>
-      <ReactMarkdown>{text}</ReactMarkdown>
-      <If ifTrue={!frontMatter?.isLastInModule}>
-        <Button
-          primary
-          label={frontMatter?.buttonLabel}
-          onClick={() =>
-            history.push(`${explanationRoute}?id=${frontMatter?.nextId}`)
-          }
-        />
-      </If>
-      <If ifTrue={!frontMatter?.nextId}>
-        <Button
-          primary
-          label='Finish module'
-          onClick={() =>
-            history.push(`/congratulations?module=${frontMatter?.module}`)
-          }
-        />
-      </If>
+      <Box direction='column'>
+        {/* <StyledMain fill='vertical'> */}
+        <ReactMarkdown>{text}</ReactMarkdown>
+        <If ifTrue={!frontMatter?.isLastInModule}>
+          <Button
+            primary
+            label={frontMatter?.buttonLabel}
+            onClick={() =>
+              history.push(`${explanationRoute}?id=${frontMatter?.nextId}`)
+            }
+          />
+        </If>
+        <If ifTrue={!frontMatter?.nextId}>
+          <Button
+            primary
+            label='Finish module'
+            onClick={() =>
+              history.push(`/congratulations?module=${frontMatter?.module}`)
+            }
+          />
+        </If>
+        {/* </StyledMain> */}
+      </Box>
     </Layout>
   );
 };

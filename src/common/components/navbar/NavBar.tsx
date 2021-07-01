@@ -39,14 +39,12 @@ const NavBar: React.FC<NavBarProps> = ({ boxProps }) => {
         </Box>
         {/* eslint-disable-next-line react/prop-types,react/jsx-props-no-spreading */}
         <Nav {...boxProps} direction='row-reverse'>
-          <If ifTrue={authState.isAuthenticated}>
-            <AvatarContainer pad='small' direction='row'>
+          <AvatarContainer pad='small' direction='row'>
+            <If ifTrue={authState.isAuthenticated}>
               <Avatar />
-            </AvatarContainer>
-          </If>
-          <If ifTrue={!authState.isAuthenticated}>
+            </If>
             <DarkModeSwitch />
-          </If>
+          </AvatarContainer>
         </Nav>
       </Header>
     </ThemeContext.Extend>

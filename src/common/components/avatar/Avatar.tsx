@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
 import { Box, Menu } from 'grommet';
-import { Gremlin } from 'grommet-icons';
+import { Dashboard, Gremlin, Logout } from 'grommet-icons';
 import { AvatarProps } from './Avatar.types';
 import useLogout from '../../hooks/useLogout';
-import DarkModeSwitch from '../darkModeSwitch/DarkModeSwitch';
 import useUserInfo from '../../hooks/useUserInfo';
 
 const Avatar: React.FC<AvatarProps> = (props) => {
@@ -18,20 +17,30 @@ const Avatar: React.FC<AvatarProps> = (props) => {
         icon={false}
         items={[
           {
-            label: <b>{userInfo.given_name}</b>,
+            label: (
+              <Box border='bottom' width='small'>
+                <b> {userInfo.given_name} </b>
+              </Box>
+            ),
             onClick: () => {},
           },
           {
-            label: 'dashboard',
+            label: (
+              <Box direction='row' gap='small'>
+                <Dashboard />
+                dashboard
+              </Box>
+            ),
             onClick: () => {},
           },
           {
-            label: 'logout',
+            label: (
+              <Box direction='row' gap='small'>
+                <Logout />
+                logout
+              </Box>
+            ),
             onClick: () => logout(),
-          },
-          {
-            label: <DarkModeSwitch />,
-            onClick: () => {},
           },
         ]}
         margin={{ vertical: 'small' }}

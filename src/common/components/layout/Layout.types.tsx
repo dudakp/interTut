@@ -5,4 +5,5 @@ export interface LayoutProps {
   navbarProps?: NavBarProps;
   footerProps?: FooterProps;
   mainMarginLeft?: string;
+  dashboard?: boolean;
 }

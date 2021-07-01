@@ -11,6 +11,7 @@ import { ThemeModeContext } from './common/context/CommonContexts';
 import LoginPage from './login/pages/loginPage/LoginPage';
 import Explanation from './explanation/pages/explanation/Explanation';
 import Congratulations from './common/pages/congratulations/Congratulations';
+import Dashboard from './dashboard/pages/dashboard/Dashboard';
 
 const theme: ThemeType = {
   global: {
@@ -68,6 +69,7 @@ export const App = (): ReactElement => {
             <Route path='/login/callback' component={LoginCallback} />
             <Route path='/congratulations' component={Congratulations} />
             <SecureRoute path='/explanation' exact component={Explanation} />
+            <SecureRoute path='/dashboard' exact component={Dashboard} />
           </Switch>
         </Security>
       </ThemeModeContext.Provider>

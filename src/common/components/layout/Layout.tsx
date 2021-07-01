@@ -1,11 +1,11 @@
 import React from 'react';
-import { Footer as GrommetFooter } from 'grommet/components/Footer';
 import { Box, ResponsiveContext } from 'grommet';
 import { LayoutProps } from './Layout.types';
 import NavBar from '../navbar/NavBar';
 import Footer from '../footer/Footer';
 import { StyledGrid, StyledMainBox } from './LayoutStyles';
 import useOnPath from '../../hooks/useOnPath';
+import If from '../if/If';
 
 const Layout: React.FC<LayoutProps> = ({
   navbarProps,
@@ -39,10 +39,12 @@ const Layout: React.FC<LayoutProps> = ({
         {/* eslint-disable-next-line react/prop-types,react/destructuring-assignment */}
         {children}
       </StyledMainBox>
-      <GrommetFooter gridArea='footer'>
-        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        <Footer {...footerProps} />
-      </GrommetFooter>
+      <If ifTrue={false}>
+        <Box gridArea='footer'>
+          {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+          <Footer {...footerProps} />
+        </Box>
+      </If>
     </StyledGrid>
   );
 };
