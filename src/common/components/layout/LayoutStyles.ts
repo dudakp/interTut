@@ -5,10 +5,10 @@ import bgIlustration from '../../../res/images/mainPage-illustration.svg';
 // eslint-disable-next-line import/prefer-default-export
 export const StyledGrid = styled(Grid)<{
   size: string;
-  explanationPage: boolean;
+  displayBackground: boolean;
 }>`
-  background: ${({ size, explanationPage }) =>
-    size !== 'small' && explanationPage
+  background: ${({ size, displayBackground }) =>
+    size !== 'small' && displayBackground
       ? `url(${bgIlustration}) no-repeat bottom 3rem right 8rem }`
       : undefined};
   background-size: 45%;

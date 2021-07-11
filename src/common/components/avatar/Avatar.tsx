@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Box, Menu } from 'grommet';
 import { Dashboard, Gremlin, Logout } from 'grommet-icons';
+import { useHistory } from 'react-router-dom';
 import { AvatarProps } from './Avatar.types';
 import useLogout from '../../hooks/useLogout';
 import useUserInfo from '../../hooks/useUserInfo';
@@ -8,6 +9,7 @@ import useUserInfo from '../../hooks/useUserInfo';
 const Avatar: React.FC<AvatarProps> = (props) => {
   const logout = useLogout();
   const userInfo = useUserInfo();
+  const history = useHistory();
 
   useEffect(() => console.log(userInfo));
   return (
@@ -31,7 +33,7 @@ const Avatar: React.FC<AvatarProps> = (props) => {
                 dashboard
               </Box>
             ),
-            onClick: () => {},
+            onClick: () => history.push('/dashboard'),
           },
           {
             label: (

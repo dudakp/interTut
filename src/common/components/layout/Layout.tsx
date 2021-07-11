@@ -11,16 +11,17 @@ const Layout: React.FC<LayoutProps> = ({
   navbarProps,
   footerProps,
   mainMarginLeft,
+  displayBackground = true,
   children,
 }) => {
   const size = React.useContext(ResponsiveContext);
 
-  const learning = useOnPath('explanation');
+  const learning = useOnPath('explanation') && displayBackground;
 
   return (
     <StyledGrid
       size={size}
-      explanationPage={learning}
+      displayBackground={learning}
       fill
       rows={['auto', 'flex', 'auto']}
       columns={['auto', 'flex']}

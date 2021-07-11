@@ -6,4 +6,5 @@ export interface LayoutProps {
   footerProps?: FooterProps;
   mainMarginLeft?: string;
   dashboard?: boolean;
+  displayBackground?: boolean;
 }
