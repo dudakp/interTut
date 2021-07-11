@@ -21,11 +21,9 @@ jobs:
       - name: Run tests
         run: |
           npm ci
-          npm test
-      - name: Report test
-        uses: dorny/test-reporter@v1
-        if: success() || failure()    # run this step even if previous step failed
+          npm run test:ci
+      - name: Upload test result artifacts
+        uses: actions/upload-artifact@v2
         with:
-          name: JEST Tests            # Name of the check run which will be created
-          path: reports/jest-*.json    # Path to test results
-          reporter: jest-junit        # Format of test results
+          name: test-reports
+          path: ./junit.xml
