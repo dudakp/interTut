@@ -22,29 +22,10 @@ jobs:
         run: |
           npm ci
           npm test
-
-  rate:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Test Report
+      - name: Report test
         uses: dorny/test-reporter@v1
         if: success() || failure()    # run this step even if previous step failed
         with:
           name: JEST Tests            # Name of the check run which will be created
           path: reports/jest-*.json    # Path to test results
           reporter: jest-junit        # Format of test results
-
-#  report-and-rate:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: report test results
-#      - uses: actions/upload-artifact@v2
-#        with:
-#          name: test-results
-#          path: jest-junit.json
-#
-#      - name: Rate tests
-#        uses: distributhor/workflow-webhook@v2
-#        env:
-#          webhook_url: ${{ secrets.RATING_URL }}?payload=${{ steps.tests.outputs.test-output }}
-#          webhook_secret: ${{ secrets.RATING_SECRET }}
