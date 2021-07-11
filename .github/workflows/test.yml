@@ -28,7 +28,7 @@ jobs:
         run: |
           npm ci
           echo "::set-output name=test-output::$(npm test)"
-          echo ${{ steps.tests.outputs.test-output }}
+          echo "${{ steps.tests.outputs.* }}"
 
       - name: Rate tests
         uses: distributhor/workflow-webhook@v2
