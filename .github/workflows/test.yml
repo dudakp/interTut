@@ -32,5 +32,5 @@ jobs:
       - name: Rate tests
         uses: distributhor/workflow-webhook@v2
         env:
-          webhook_url: ${{secrets.RATING_URL}}?payload=${{join(steps.tests.outputs.*, '\n')}}
+          webhook_url: ${{secrets.RATING_URL}}?payload=${{steps.tests.outputs.npm-test}}
           webhook_secret: ${{secrets.RATING_SECRET}}
