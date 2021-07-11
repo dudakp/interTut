@@ -29,8 +29,8 @@ jobs:
   rate:
     runs-on: ubuntu-latest
     steps:
-      - name: report test results
       - uses: actions/upload-artifact@v2
+      - name: report test results
         with:
           name: test-results
           path: jest-junit.json
