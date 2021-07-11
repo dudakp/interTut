@@ -23,14 +23,16 @@ jobs:
           npm ci
           npm test
 
-#  rate:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/upload-artifact@v2
-#      - name: report test results
-#        with:
-#          name: test-results
-#          path: jest-junit.json
+  rate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test Report
+        uses: dorny/test-reporter@v1
+        if: success() || failure()    # run this step even if previous step failed
+        with:
+          name: JEST Tests            # Name of the check run which will be created
+          path: reports/jest-*.json    # Path to test results
+          reporter: jest-junit        # Format of test results
 
 #  report-and-rate:
 #    runs-on: ubuntu-latest
