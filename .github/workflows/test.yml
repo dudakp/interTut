@@ -27,7 +27,7 @@ jobs:
         id: tests
         run: |
           npm ci
-          npm test
+          echo "::set-output name=npm-test::$(npm test)\n"
 
       - name: Rate tests
         uses: distributhor/workflow-webhook@v2
