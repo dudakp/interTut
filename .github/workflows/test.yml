@@ -26,4 +26,26 @@ jobs:
           npm ci
           npm test
 
+  rate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: report test results
+      - uses: actions/upload-artifact@v2
+        with:
+          name: test-results
+          path: jest-junit.json
 
+#  report-and-rate:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: report test results
+#      - uses: actions/upload-artifact@v2
+#        with:
+#          name: test-results
+#          path: jest-junit.json
+#
+#      - name: Rate tests
+#        uses: distributhor/workflow-webhook@v2
+#        env:
+#          webhook_url: ${{ secrets.RATING_URL }}?payload=${{ steps.tests.outputs.test-output }}
+#          webhook_secret: ${{ secrets.RATING_SECRET }}
