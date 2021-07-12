@@ -27,11 +27,17 @@ jobs:
         with:
           name: test-reports
           path: ./junit.xml
-      - uses: actions/download-artifact@v2
+      - name: Download artifact
+        uses: actions/download-artifact@v2
         with:
           name: test-reports
-          path: ./
-
-      - name: Display structure of downloaded files
-        run: ls
-        working-directory: ./
+          path: ./      
+      - name: Convert xml to json and staore as variable
+        uses: fabasoad/yaml-json-xml-converter-action@main
+        id: xml2json
+        with:
+          path: './junit.xml'
+          from: 'xml'
+          to: 'json'
+      - name: Print xml2json result
+        run: echo "${{ steps.xml2json.outputs.data }}"
