@@ -22,16 +22,6 @@ jobs:
         run: |
           npm ci
           npm run test:ci
-      - name: Upload test result artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: test-reports
-          path: ./junit.xml
-      - name: Download artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: test-reports
-          path: ./      
       - name: Convert xml to json and staore as variable
         uses: fabasoad/yaml-json-xml-converter-action@main
         id: xml2json
