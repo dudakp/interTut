@@ -39,10 +39,10 @@ jobs:
           path: './junit.xml'
           from: 'xml'
           to: 'json'
-      - name: Print xml2json result
-        run: echo "${{ steps.xml2json.outputs.data }}"
       - name: Send test results for rating
         uses: distributhor/workflow-webhook@v2
         env:
+          webhook_type: 'json-extended'
           webhook_url: ${{ secrets.RATING_URL }}
-          webhook_secret: ${{ secrets.RATING_SECRET }}?payload=${{steps.xml2json.outputs.data}}
+          webhook_secret: ${{ secrets.RATING_SECRET }}
+          data: ${{steps.xml2json.outputs.data}}
