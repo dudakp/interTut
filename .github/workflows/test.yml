@@ -33,5 +33,5 @@ jobs:
           path: ./
 
       - name: Display structure of downloaded files
-        run: ls -R
+        run: ls
         working-directory: ./
