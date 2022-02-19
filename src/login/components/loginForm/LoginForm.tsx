@@ -1,21 +1,13 @@
 import React from 'react';
-import {
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Heading,
-  Text,
-} from 'grommet';
+import { Button, Card, CardBody, CardFooter, CardHeader, Heading, Text } from 'grommet';
 import { Github, Google } from 'grommet-icons';
-import { useOktaAuth } from '@okta/okta-react';
+import { useAuth0 } from '@auth0/auth0-react';
 import If from '../../../common/components/if/If';
 
 const LoginForm: React.FC<any> = () => {
-  const { authState, oktaAuth } = useOktaAuth();
+  const { isAuthenticated, loginWithRedirect } = useAuth0();
   const login = () => {
-    oktaAuth.signInWithRedirect({ originalUri: '/explanation?id=react' });
+    loginWithRedirect();
   };
 
   return (
@@ -31,7 +23,7 @@ const LoginForm: React.FC<any> = () => {
           with GitHub or Google account
         </Text>
       </CardBody>
-      <If ifTrue={!authState.isAuthenticated}>
+      <If ifTrue={!isAuthenticated}>
         <CardFooter pad='small' justify='center'>
           <Button
             onClick={login}

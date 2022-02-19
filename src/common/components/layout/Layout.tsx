@@ -32,7 +32,6 @@ const Layout: React.FC<LayoutProps> = ({
       ]}
     >
       <Box gridArea='header'>
-        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
         <NavBar {...navbarProps} />
       </Box>
 

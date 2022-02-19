@@ -3,8 +3,8 @@ import { render, screen } from '@testing-library/react';
 import DarkModeSwitch from './DarkModeSwitch';
 
 it('Component renders', () => {
-  const { container } = render(<DarkModeSwitch />);
-  expect(container.firstChild).toBeInTheDocument();
+  const container = render(<DarkModeSwitch />);
+  expect(container.container.firstChild).toBeInTheDocument();
 });
 
 it('Switch toogle', () => {

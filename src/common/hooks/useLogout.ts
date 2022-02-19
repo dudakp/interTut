@@ -1,12 +1,10 @@
-import { useOktaAuth } from '@okta/okta-react';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const useLogout = () => {
-  const { oktaAuth } = useOktaAuth();
+  const { logout } = useAuth0();
 
   return async () => {
-    await oktaAuth.signOut({
-      postLogoutRedirectUri: 'http://localhost:3000/',
-    });
+    await logout();
   };
 };
 

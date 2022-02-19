@@ -35,4 +35,4 @@ jobs:
           webhook_type: 'json-extended'
           webhook_url: ${{ secrets.RATING_URL }}
           webhook_secret: ${{ secrets.RATING_SECRET }}
-          data: ${{steps.xml2json.outputs.data}}
+          data: ${{ steps.xml2json.outputs.data }}

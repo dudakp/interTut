@@ -1,17 +1,16 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { grommet, Grommet, ThemeType } from 'grommet';
 import { deepMerge } from 'grommet/utils';
-import { Route, Switch, useHistory } from 'react-router-dom';
-import { LoginCallback, SecureRoute, Security } from '@okta/okta-react';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { OktaAuth, toRelativeUrl } from '@okta/okta-auth-js';
+import { Route, Switch } from 'react-router-dom';
 
+import { Auth0Provider, useAuth0 } from '@auth0/auth0-react';
 import LandingPage from './intro/pages/landingPage/LandingPage';
 import { ThemeModeContext } from './common/context/CommonContexts';
 import LoginPage from './login/pages/loginPage/LoginPage';
 import Explanation from './explanation/pages/explanation/Explanation';
 import Congratulations from './common/pages/congratulations/Congratulations';
 import Dashboard from './dashboard/pages/dashboard/Dashboard';
+import SecuredRoute from './common/components/securedRoute/SecuredRoute';
 
 const theme: ThemeType = {
   global: {
@@ -33,47 +32,43 @@ const theme: ThemeType = {
   },
 };
 
-const config = {
-  issuer: process.env.REACT_APP_ISSUER,
-  clientId: process.env.REACT_APP_CLIENT_ID,
-  redirectUri: `http://${window.location.host}${process.env.REACT_APP_CALLBACK_PATH}`,
-  scopes: process.env.REACT_APP_SCOPES?.split(','),
-};
-
-const oktaAuth = new OktaAuth(config);
-
-const useRestoreOriginalUri = () => {
-  const history = useHistory();
-  return async (_oktaAuth: OktaAuth, originalUri: string) => {
-    history.replace(toRelativeUrl(originalUri, window.location.origin));
-  };
+const config: { domain: string; clientId: string; redirectUri: string } = {
+  domain: process.env.REACT_APP_DOMAIN ?? 'missing domain',
+  clientId: process.env.REACT_APP_CLIENT_ID ?? 'missing clientId',
+  redirectUri: window.location.origin,
 };
 
 export const App = (): ReactElement => {
   const [darkMode, setDarkMode] = useState(false);
-  const restoreOriginalUri = useRestoreOriginalUri();
+
+  const { user, isAuthenticated, isLoading } = useAuth0();
+
+  useEffect(() => console.log(user, isLoading), [user, isLoading]);
 
   return (
-    <Grommet
-      themeMode={darkMode ? 'dark' : 'light'}
-      theme={deepMerge(grommet, theme)}
-      full
+    <Auth0Provider
+      domain={config.domain}
+      clientId={config.clientId}
+      redirectUri={config.redirectUri}
     >
-      <ThemeModeContext.Provider value={{ darkMode, setDarkMode }}>
-        <Security oktaAuth={oktaAuth} restoreOriginalUri={restoreOriginalUri}>
+      <Grommet
+        themeMode={darkMode ? 'dark' : 'light'}
+        theme={deepMerge(grommet, theme)}
+        full
+      >
+        <ThemeModeContext.Provider value={{ darkMode, setDarkMode }}>
           <Switch>
             <Route path='/' exact component={LandingPage} />
             <Route path='/start' component={LandingPage} />
             <Route path='/begin' component={LoginPage} />
             <Route path='/explanationFirst' component={Explanation} />
-            <Route path='/login/callback' component={LoginCallback} />
             <Route path='/congratulations' component={Congratulations} />
-            <SecureRoute path='/explanation' exact component={Explanation} />
-            <SecureRoute path='/dashboard' exact component={Dashboard} />
+            <SecuredRoute path='/explanation' exact component={Explanation} />
+            <SecuredRoute path='/dashboard' exact component={Dashboard} />
           </Switch>
-        </Security>
-      </ThemeModeContext.Provider>
-    </Grommet>
+        </ThemeModeContext.Provider>
+      </Grommet>
+    </Auth0Provider>
   );
 };
 

@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, Grid, ResponsiveContext } from 'grommet';
 import { useHistory } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 import { LandingPageProps } from './LandingPage.types';
 import { StyledButton, StyledHeading, StyledList } from './LandingPage.styles';
 import Layout from '../../../common/components/layout/Layout';
+import useLocalStorageState from '../../../common/hooks/useLocalStorageState';
 
 const technologies: string[] = [
   'react',
@@ -17,9 +19,21 @@ const technologies: string[] = [
 ];
 
 const LandingPage: React.FC<LandingPageProps> = () => {
+  const [startedModules] = useLocalStorageState<string[]>('startedModules', []);
+  const [finishedModules] = useLocalStorageState<string[]>(
+    'finishedModules',
+    []
+  );
+
+  const { isAuthenticated } = useAuth0();
+  const history = useHistory();
   const size = React.useContext(ResponsiveContext);
 
-  const history = useHistory();
+  useEffect(() => {
+    if (isAuthenticated && startedModules && finishedModules) {
+      console.log('reporting modules!');
+    }
+  }, [startedModules, finishedModules, isAuthenticated]);
 
   return (
     <Layout>
@@ -43,9 +57,7 @@ const LandingPage: React.FC<LandingPageProps> = () => {
             <StyledButton
               primary
               label='learn now'
-              onClick={(e) =>
-                history.push('/explanationFirst?id=intro/0_hello')
-              }
+              onClick={() => history.push('/explanationFirst?id=intro/0_hello')}
             />
           </Box>
         </Box>

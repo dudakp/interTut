@@ -1,17 +1,16 @@
-import React, { useEffect } from 'react';
-import { Box, Menu } from 'grommet';
-import { Dashboard, Gremlin, Logout } from 'grommet-icons';
+import React from 'react';
+import { Avatar as PicAvatar, Box, Menu } from 'grommet';
+import { Dashboard, Logout } from 'grommet-icons';
 import { useHistory } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 import { AvatarProps } from './Avatar.types';
 import useLogout from '../../hooks/useLogout';
-import useUserInfo from '../../hooks/useUserInfo';
 
 const Avatar: React.FC<AvatarProps> = (props) => {
   const logout = useLogout();
-  const userInfo = useUserInfo();
+  const { user } = useAuth0();
   const history = useHistory();
 
-  useEffect(() => console.log(userInfo));
   return (
     <Box>
       <Menu
@@ -21,10 +20,11 @@ const Avatar: React.FC<AvatarProps> = (props) => {
           {
             label: (
               <Box border='bottom' width='small'>
-                <b> {userInfo.given_name} </b>
+                <b>
+                  {user?.name} ({user?.nickname})
+                </b>
               </Box>
             ),
-            onClick: () => {},
           },
           {
             label: (
@@ -53,9 +53,8 @@ const Avatar: React.FC<AvatarProps> = (props) => {
           },
         }}
       >
-        <Box direction='row-responsive' gap='small'>
-          <Gremlin />
-          {userInfo.given_name}
+        <Box direction='row-responsive' gap='medium'>
+          <PicAvatar src={user?.picture} size='medium' />
         </Box>
       </Menu>
     </Box>

@@ -1,26 +1,21 @@
-import { useOktaAuth } from '@okta/okta-react';
 import { useEffect, useState } from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const useUserInfo = () => {
-  const { authState, oktaAuth } = useOktaAuth();
-  const [userInfo, setUserInfo] = useState<{
-    email?: string;
-    given_name?: string;
-    family_name?: string;
-  }>({});
+  const { user, isAuthenticated } = useAuth0();
+  const [userInfo, setUserInfo] = useState<any>({});
 
   useEffect(() => {
     const getUserInfo = async () => {
-      const userClaims = await oktaAuth.getUser().then((info) => info);
-      setUserInfo(userClaims);
-    };
+      setUserInfo(user);
 
-    if (!authState.isAuthenticated) {
-      setUserInfo({});
-    } else {
-      getUserInfo();
-    }
-  }, [authState, oktaAuth]);
+      if (!isAuthenticated) {
+        setUserInfo({});
+      } else {
+        getUserInfo();
+      }
+    };
+  }, [user, isAuthenticated]);
 
   return userInfo;
 };
